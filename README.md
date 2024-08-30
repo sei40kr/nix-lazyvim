@@ -2,14 +2,6 @@
 
 Nix Flake to provide a Nix derivation for [LazyVim](https://github.com/LazyVim/LazyVim).
 
-It wraps Neovim with LazyVim dependencies and a few configurations. It also
-isolates the LazyVim configurations and environments from normal Neovim.
-
-- `~/.cache/nvim` -> `~/.cache/lazyvim`
-- `~/.config/nvim` -> `~/.config/lazyvim`
-- `~/.local/share/nvim` -> `~/.local/share/lazyvim`
-- `~/.local/state/nvim` -> `~/.local/state/lazyvim`
-
 ## Get Started
 
 1. Fork and clone [LazyVim/starter](https://github.com/LazyVim/starter) to `~/.config/lazyvim`:
@@ -49,6 +41,31 @@ isolates the LazyVim configurations and environments from normal Neovim.
      ];
    }
    ```
+
+## Differences from Normal LazyVim
+
+- The executable and runtime directories are isolated from Neovim:
+
+  |            | Normal Neovim         | nix-lazyvim              |
+  | ---------- | --------------------- | ------------------------ |
+  | Executable | `nvim`                | `lazyvim`                |
+  | Cache      | `~/.cache/nvim`       | `~/.cache/lazyvim`       |
+  | Config     | `~/.config/nvim`      | `~/.config/lazyvim`      |
+  | Data       | `~/.local/share/nvim` | `~/.local/share/lazyvim` |
+  | State      | `~/.local/state/nvim` | `~/.local/state/lazyvim` |
+
+- All Treesitter language parsers are pre-installed.
+  - Because nvim-treesitter requires a C compiler to build language parsers.
+- By same reason, some plugins are pre-installed:
+  - [lazy.nvim](https://github.com/folke/lazy.nvim)
+  - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+  - [telescope-fzf-native.nvim](https://github.com/nvim-telescope/telescope-fzf-native.nvim)
+- You can't update pre-installed Treesitter language parsers and plugins.
+  You can only update them by updating Nixpkgs.
+- [mason.nvim](https://github.com/williamboman/mason.nvim) won't automatically install external editor tools (such as language servers, debug adapters, etc).
+  So you need to install them manually.
+- You don't need to bootstrap lazy.nvim.
+  - On the other hand, you can't customize the options to setup lazy.nvim.
 
 ## Limitations
 
