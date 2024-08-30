@@ -25,6 +25,31 @@ isolates the LazyVim configurations and environments from normal Neovim.
    nix flake run github:sei40kr/nix-lazyvim
    ```
 
+1. Or you can use it from your Nix Flake configuration:
+
+   ```nix
+   {
+     inputs = {
+       nixpkgs.url = "nixpkgs/master";
+
+       lazyvim = {
+         url = "github:sei40kr/nix-lazyvim";
+         inputs.nixpkgs.follows = "nixpkgs";
+       };
+     };
+   }
+   ```
+
+   ```nix
+   { lib, inputs, ...}:
+
+   {
+     config.environment.systemPackages = [
+       inputs.lazyvim.packages.x86_64-linux.default
+     ];
+   }
+   ```
+
 ## Limitations
 
 - If you override nixpkgs in your Flake, you will need to add nixpkgs which
