@@ -101,6 +101,7 @@ runCommandLocal "LazyVim"
     homepage = "https://lazyvim.org";
     license = licenses.apsl20;
     platforms = platforms.all;
+    mainProgram = "lazyvim";
   };
 } ''
   install -Dm755 ${neovimConfigured}/bin/nvim $out/bin/lazyvim
