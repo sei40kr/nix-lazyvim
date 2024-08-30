@@ -8,7 +8,6 @@
 , wrapNeovimUnstable
 }:
 
-assert lib.versionAtLeast neovim-unwrapped.version "0.10";
 let
   neovimConfigured = wrapNeovimUnstable neovim-unwrapped {
     extraName = "-LazyVim";
