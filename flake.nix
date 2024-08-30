@@ -10,10 +10,10 @@
     in
     mkFlake { inherit inputs; } {
       perSystem = { pkgs, self', ... }: {
-        packages.LazyVim = pkgs.callPackage ./packages/LazyVim { };
+        packages.default = pkgs.callPackage ./packages/LazyVim { };
 
-        devShells.LazyVim = pkgs.callPackage ./dev-shells/LazyVim {
-          inherit (self'.packages) LazyVim;
+        devShells.default = pkgs.callPackage ./dev-shells/LazyVim {
+          LazyVim = self'.packages.default;
         };
       };
 
