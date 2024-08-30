@@ -1,21 +1,22 @@
 {
   inputs = {
     nixpkgs.url = "nixpkgs/master";
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
-  outputs = { self, nixpkgs }:
+  outputs = inputs@{ flake-parts, ... }:
     let
-      inherit (nixpkgs) lib;
-      inherit (lib) genAttrs;
-      systems = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
-      pkgs' = genAttrs systems (system: import nixpkgs { inherit system; });
+      inherit (flake-parts.lib) mkFlake;
     in
-    {
-      packages = genAttrs systems (system:
-        let pkgs = pkgs'.${system};
-        in
-        rec {
-          LazyVim = pkgs.callPackage ./packages/LazyVim { };
-        });
+    mkFlake { inherit inputs; } {
+      perSystem = { pkgs, self', ... }: {
+        packages.LazyVim = pkgs.callPackage ./packages/LazyVim { };
+
+        devShells.LazyVim = pkgs.callPackage ./dev-shells/LazyVim {
+          inherit (self'.packages) LazyVim;
+        };
+      };
+
+      systems = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
     };
 }
