@@ -22,17 +22,6 @@ let
       ])
     ]
     ++ [ "--set" "NVIM_APPNAME" "lazyvim" ];
-    python3Env = python3.withPackages (ps: with ps; [
-      pynvim
-      # For molten-nvim
-      cairosvg
-      jupyter-client
-      nbformat
-      pillow
-      plotly
-      pnglatex
-      pyperclip
-    ]);
     luaRcContent = ''
       require("lazy").setup({
         spec = {
