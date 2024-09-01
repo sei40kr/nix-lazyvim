@@ -1,33 +1,51 @@
-{ lib
-, fd
-, neovim-unwrapped
-, python3
-, ripgrep
-, runCommandLocal
-, vimPlugins
-, wrapNeovimUnstable
+{
+  lib,
+  fd,
+  neovim-unwrapped,
+  python3,
+  ripgrep,
+  runCommandLocal,
+  vimPlugins,
+  wrapNeovimUnstable,
 }:
 
 let
-  luaEnv = neovim-unwrapped.lua.withPackages (ps: with ps; [
-    # For LuaSnip
-    jsregexp
-  ]);
+  luaEnv = neovim-unwrapped.lua.withPackages (
+    ps: with ps; [
+      # For LuaSnip
+      jsregexp
+    ]
+  );
   neovimConfigured = wrapNeovimUnstable neovim-unwrapped {
     extraName = "-LazyVim";
-    wrapperArgs = [
-      "--prefix"
-      "PATH"
-      ":"
-      (lib.makeBinPath [
-        # For telescope.nvim
-        fd
-        ripgrep
-      ])
-    ]
-    ++ [ "--prefix" "LUA_PATH" ";" (neovim-unwrapped.lua.pkgs.luaLib.genLuaPathAbsStr luaEnv) ]
-    ++ [ "--prefix" "LUA_CPATH" ";" (neovim-unwrapped.lua.pkgs.luaLib.genLuaCPathAbsStr luaEnv) ]
-    ++ [ "--set" "NVIM_APPNAME" "lazyvim" ];
+    wrapperArgs =
+      [
+        "--prefix"
+        "PATH"
+        ":"
+        (lib.makeBinPath [
+          # For telescope.nvim
+          fd
+          ripgrep
+        ])
+      ]
+      ++ [
+        "--prefix"
+        "LUA_PATH"
+        ";"
+        (neovim-unwrapped.lua.pkgs.luaLib.genLuaPathAbsStr luaEnv)
+      ]
+      ++ [
+        "--prefix"
+        "LUA_CPATH"
+        ";"
+        (neovim-unwrapped.lua.pkgs.luaLib.genLuaCPathAbsStr luaEnv)
+      ]
+      ++ [
+        "--set"
+        "NVIM_APPNAME"
+        "lazyvim"
+      ];
     luaRcContent = ''
       require("lazy").setup({
         spec = {
@@ -82,26 +100,26 @@ let
       })
     '';
     packpathDirs.myNeovimPackages = {
-      start = [ vimPlugins.lazy-nvim ]
-        ++ vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
+      start = [ vimPlugins.lazy-nvim ] ++ vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
     };
   };
 in
 runCommandLocal "LazyVim"
-{
-  buildInputs = [
-    neovimConfigured
-    fd
-    ripgrep
-  ];
+  {
+    buildInputs = [
+      neovimConfigured
+      fd
+      ripgrep
+    ];
 
-  meta = with lib; {
-    description = "Neovim config for the lazy";
-    homepage = "https://lazyvim.org";
-    license = licenses.apsl20;
-    platforms = platforms.all;
-    mainProgram = "lazyvim";
-  };
-} ''
-  install -Dm755 ${neovimConfigured}/bin/nvim $out/bin/lazyvim
-''
+    meta = with lib; {
+      description = "Neovim config for the lazy";
+      homepage = "https://lazyvim.org";
+      license = licenses.apsl20;
+      platforms = platforms.all;
+      mainProgram = "lazyvim";
+    };
+  }
+  ''
+    install -Dm755 ${neovimConfigured}/bin/nvim $out/bin/lazyvim
+  ''

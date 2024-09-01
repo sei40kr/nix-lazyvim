@@ -1,6 +1,4 @@
-{ LazyVim
-, mkShell
-}:
+{ LazyVim, mkShell }:
 
 mkShell {
   buildInputs = [ LazyVim ];
