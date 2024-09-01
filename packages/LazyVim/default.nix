@@ -1,6 +1,7 @@
 { lib
 , fd
 , neovim-unwrapped
+, neovimUtils
 , python3
 , ripgrep
 , runCommandLocal
@@ -9,9 +10,11 @@
 }:
 
 let
-  neovimConfigured = wrapNeovimUnstable neovim-unwrapped {
-    extraName = "-LazyVim";
-    wrapperArgs = [
+  neovimConfigured = wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
+    extraMakeWrapperArgs = lib.escapeShellArgs [
+      "--set"
+      "NVIM_APPNAME"
+      "lazyvim"
       "--prefix"
       "PATH"
       ":"
@@ -20,9 +23,9 @@ let
         fd
         ripgrep
       ])
-    ]
-    ++ [ "--set" "NVIM_APPNAME" "lazyvim" ];
-    luaRcContent = ''
+    ];
+    plugins = [ vimPlugins.lazy-nvim ] ++ vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
+    customRC = ''
       require("lazy").setup({
         spec = {
           { "LazyVim/LazyVim", import = "lazyvim.plugins" },
@@ -70,11 +73,8 @@ let
         },
       })
     '';
-    packpathDirs.myNeovimPackages = {
-      start = [ vimPlugins.lazy-nvim ]
-        ++ vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
-    };
-  };
+    extraName = "-LazyVim";
+  });
 in
 runCommandLocal "LazyVim"
 {
