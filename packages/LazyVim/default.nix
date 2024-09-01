@@ -9,6 +9,10 @@
 }:
 
 let
+  luaEnv = neovim-unwrapped.lua.withPackages (ps: with ps; [
+    # For LuaSnip
+    jsregexp
+  ]);
   neovimConfigured = wrapNeovimUnstable neovim-unwrapped {
     extraName = "-LazyVim";
     wrapperArgs = [
@@ -21,6 +25,8 @@ let
         ripgrep
       ])
     ]
+    ++ [ "--prefix" "LUA_PATH" ";" (neovim-unwrapped.lua.pkgs.luaLib.genLuaPathAbsStr luaEnv) ]
+    ++ [ "--prefix" "LUA_CPATH" ";" (neovim-unwrapped.lua.pkgs.luaLib.genLuaCPathAbsStr luaEnv) ]
     ++ [ "--set" "NVIM_APPNAME" "lazyvim" ];
     luaRcContent = ''
       require("lazy").setup({
@@ -32,6 +38,11 @@ let
             opts = {
               ensure_installed = {},
             },
+          },
+          {
+            "LuaSnip",
+            build = nil,
+            optional = true,
           },
           {
             dir = "${vimPlugins.nvim-treesitter.withAllGrammars.outPath}",
