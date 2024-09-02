@@ -59,7 +59,7 @@ let
           },
           {
             "LuaSnip",
-            build = nil,
+            build = "",
             optional = true,
           },
           {
