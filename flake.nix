@@ -2,10 +2,6 @@
   inputs = {
     nixpkgs.url = "nixpkgs/master";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    blink-cmp = {
-      url = "github:Saghen/blink.cmp";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -15,16 +11,9 @@
     in
     mkFlake { inherit inputs; } {
       perSystem =
+        { pkgs, self', ... }:
         {
-          self',
-          pkgs,
-          inputs',
-          ...
-        }:
-        {
-          packages.default = pkgs.callPackage ./packages/LazyVim {
-            inherit (inputs'.blink-cmp.packages) blink-cmp;
-          };
+          packages.default = pkgs.callPackage ./packages/LazyVim { };
 
           devShells.default = pkgs.callPackage ./dev-shells/LazyVim { LazyVim = self'.packages.default; };
         };

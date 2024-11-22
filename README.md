@@ -58,7 +58,6 @@ Nix Flake to provide a Nix derivation for [LazyVim](https://github.com/LazyVim/L
   - Because nvim-treesitter requires a C compiler to build language parsers.
 - [jsregexp](https://github.com/kmarius/jsregexp) is pre-installed (for [LuaSnip](https://github.com/L3MON4D3/LuaSnip)).
 - By same reason, some plugins are pre-installed:
-  - [blink.cmp](https://github.com/Saghen/blink.cmp)
   - [lazy.nvim](https://github.com/folke/lazy.nvim)
   - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
   - [telescope-fzf-native.nvim](https://github.com/nvim-telescope/telescope-fzf-native.nvim)

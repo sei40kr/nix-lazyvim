@@ -1,6 +1,5 @@
 {
   lib,
-  blink-cmp,
   fd,
   neovim-unwrapped,
   python3,
@@ -53,12 +52,6 @@ let
       require("lazy").setup({
         spec = {
           { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-          {
-            dir = "${blink-cmp.outPath}",
-            name = "blink.cmp",
-            pin = true,
-            optional = true,
-          },
           {
             "mason.nvim",
             opts_extend = {},
