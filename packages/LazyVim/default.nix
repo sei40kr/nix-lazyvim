@@ -101,9 +101,16 @@ let
         },
       })
     '';
-    packpathDirs.myNeovimPackages = {
-      start = [ vimPlugins.lazy-nvim ] ++ vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
-    };
+    plugins = [
+      {
+        plugin = vimPlugins.lazy-nvim;
+        optional = false;
+      }
+      {
+        plugin = vimPlugins.nvim-treesitter.withAllGrammars;
+        optional = false;
+      }
+    ];
   };
 in
 runCommandLocal "LazyVim"
