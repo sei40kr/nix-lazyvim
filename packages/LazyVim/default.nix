@@ -2,6 +2,7 @@
   lib,
   fd,
   neovim-unwrapped,
+  nodejs,
   python3,
   ripgrep,
   runCommandLocal,
@@ -52,6 +53,13 @@ let
       require("lazy").setup({
         spec = {
           { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+          {
+            "copilot.lua",
+            opts = {
+              copilot_node_command = "${nodejs}/bin/node",
+            },
+            optional = true,
+          },
           {
             "mason.nvim",
             opts_extend = {},
