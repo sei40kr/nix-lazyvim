@@ -1,6 +1,7 @@
 {
   lib,
   fd,
+  fzf,
   neovim-unwrapped,
   nodejs,
   python3,
@@ -25,7 +26,9 @@ let
         "PATH"
         ":"
         (lib.makeBinPath [
-          # For telescope.nvim
+          # For fzf-lua
+          fzf
+          # For fzf-lua & telescope.nvim
           fd
           ripgrep
         ])
