@@ -65,10 +65,9 @@ let
           },
           {
             "mason.nvim",
-            opts_extend = {},
-            opts = {
-              ensure_installed = {},
-            },
+            opts = function(_, opts)
+              opts.ensure_installed = {}
+            end,
           },
           {
             "LuaSnip",
