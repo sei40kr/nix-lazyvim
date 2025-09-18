@@ -2,6 +2,34 @@
 
 Nix Flake to provide a Nix derivation for [LazyVim](https://github.com/LazyVim/LazyVim).
 
+> [!IMPORTANT]
+> LazyVim v15 requires Neovim v0.11.2 or later. As of 2025/09/25, the stable
+> Nixpkgs release includes Neovim v0.11.1, which is incompatible with LazyVim v15.
+>
+> You must use an unstable Nixpkgs channel that provides Neovim v0.11.2+. Here's how
+> to override the nixpkgs input:
+>
+> ```nix
+> {
+>   inputs = {
+>     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";  # or "nixpkgs/master"
+>
+>     lazyvim = {
+>       url = "github:sei40kr/nix-lazyvim";
+>       inputs.nixpkgs.follows = "nixpkgs-unstable";
+>     };
+>   };
+> }
+> ```
+>
+> Alternatively, you can override `neovim-unwrapped` specifically:
+>
+> ```nix
+> (inputs.lazyvim.packages.${system}.default.override {
+>   inherit (pkgs.unstable) neovim-unwrapped;
+> })
+> ```
+
 ## Get Started
 
 1. Fork and clone [LazyVim/starter](https://github.com/LazyVim/starter) to `~/.config/lazyvim`:
