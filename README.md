@@ -70,31 +70,47 @@ Nix Flake to provide a Nix derivation for [LazyVim](https://github.com/LazyVim/L
    }
    ```
 
-## Differences from Normal LazyVim
+## 🆚 Differences from Standard LazyVim
 
-- The executable and runtime directories are isolated from Neovim:
+This Nix package differs from a standard LazyVim installation in several key ways:
 
-  |            | Normal Neovim         | nix-lazyvim              |
-  | ---------- | --------------------- | ------------------------ |
-  | Executable | `nvim`                | `lazyvim`                |
-  | Cache      | `~/.cache/nvim`       | `~/.cache/lazyvim`       |
-  | Config     | `~/.config/nvim`      | `~/.config/lazyvim`      |
-  | Data       | `~/.local/share/nvim` | `~/.local/share/lazyvim` |
-  | State      | `~/.local/state/nvim` | `~/.local/state/lazyvim` |
+### 🗂️ Isolated Runtime Directories
 
-- All Treesitter language parsers are pre-installed.
-  - Because nvim-treesitter requires a C compiler to build language parsers.
-- [jsregexp](https://github.com/kmarius/jsregexp) is pre-installed (for [LuaSnip](https://github.com/L3MON4D3/LuaSnip)).
-- By same reason, some plugins are pre-installed:
-  - [lazy.nvim](https://github.com/folke/lazy.nvim)
-  - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
-  - [telescope-fzf-native.nvim](https://github.com/nvim-telescope/telescope-fzf-native.nvim)
-- You can't update pre-installed Treesitter language parsers and plugins.
-  You can only update them by updating Nixpkgs.
-- [mason.nvim](https://github.com/williamboman/mason.nvim) won't automatically install external editor tools (such as language servers, debug adapters, etc).
-  So you need to install them manually.
-- You don't need to bootstrap lazy.nvim.
-  - On the other hand, you can't customize the options to setup lazy.nvim.
+To avoid conflicts with existing Neovim installations, all runtime directories are isolated:
+
+| Directory Type | Standard Neovim       | nix-lazyvim              |
+| -------------- | --------------------- | ------------------------ |
+| **Executable** | `nvim`                | `lazyvim`                |
+| **Cache**      | `~/.cache/nvim`       | `~/.cache/lazyvim`       |
+| **Config**     | `~/.config/nvim`      | `~/.config/lazyvim`      |
+| **Data**       | `~/.local/share/nvim` | `~/.local/share/lazyvim` |
+| **State**      | `~/.local/state/nvim` | `~/.local/state/lazyvim` |
+
+### 🔧 Pre-installed Components
+
+Several components are pre-installed to ensure a smooth experience without requiring build tools:
+
+- **All Tree-sitter language parsers** - Installed upfront since building them requires a C compiler
+- **Essential plugins** - Pre-built to avoid compilation during setup:
+  - [lazy.nvim](https://github.com/folke/lazy.nvim) - Plugin manager
+  - [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) - Syntax parsing
+  - [telescope-fzf-native.nvim](https://github.com/nvim-telescope/telescope-fzf-native.nvim) - Fast fuzzy finder
+- **jsregexp** - Required for [LuaSnip](https://github.com/L3MON4D3/LuaSnip) snippet engine
+
+### ⚡ Update Limitations
+
+- **Pre-installed components** (Tree-sitter parsers, core plugins) can only be updated by updating your Nixpkgs channel
+- **No automatic updates** via `:Lazy update` for these components
+
+### 🛠️ Mason.nvim Behavior
+
+- **No automatic tool installation** - [mason.nvim](https://github.com/williamboman/mason.nvim) won't install language servers, debug adapters, or other external tools automatically
+- **Manual installation required** - You'll need to install these tools through your system package manager or Nix configuration
+
+### 🚀 Setup Differences
+
+- **No bootstrap required** - `lazy.nvim` is already set up and ready to use
+- **Limited customization** - Some `lazy.nvim` setup options cannot be customized since the plugin manager is pre-configured
 
 ## Limitations
 
