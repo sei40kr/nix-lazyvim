@@ -1,7 +1,6 @@
 {
   lib,
   fd,
-  fzf,
   ghostscript,
   imagemagick,
   mermaid-cli,
@@ -11,6 +10,7 @@
   ripgrep,
   runCommandLocal,
   tectonic,
+  tree-sitter,
   vimPlugins,
   wrapNeovimUnstable,
 }:
@@ -23,17 +23,17 @@ let
     ]
   );
   runtimeDependencies = [
-    # For fzf-lua
-    fzf
     # For fzf-lua, telescope.nvim, and Snacks picker
     fd
     ripgrep
+    # For nvim-treesitter
+    tree-sitter
     # For Snacks image
     ghostscript
     imagemagick
     mermaid-cli
     tectonic
-  ];
+  ] ++ vimPlugins.fzf-lua.runtimeDeps;
   neovimConfigured = wrapNeovimUnstable neovim-unwrapped {
     extraName = "-LazyVim";
     wrapperArgs =
