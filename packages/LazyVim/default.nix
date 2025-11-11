@@ -103,6 +103,9 @@ let
           },
           { import = "plugins" },
         },
+        rocks = {
+          enabled = false,
+        },
         performance = {
           reset_packpath = false,
           rtp = {

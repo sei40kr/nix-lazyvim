@@ -102,6 +102,12 @@ Several components are pre-installed to ensure a smooth experience without requi
 - **Pre-installed components** (Tree-sitter parsers, core plugins) can only be updated by updating your Nixpkgs channel
 - **No automatic updates** via `:Lazy update` for these components
 
+### 🪨 Luarocks Support
+
+Luarocks integration is disabled by default.
+While none of the plugins installed by LazyVim require Luarocks for dependency resolution, some plugins include rockspec files that would cause lazy.nvim to search for Luarocks during installation.
+This would result in build failures when Luarocks is not found, so we've disabled it to ensure a smooth installation experience.
+
 ### 🛠️ Mason.nvim Behavior
 
 - **No automatic tool installation** - [mason.nvim](https://github.com/williamboman/mason.nvim) won't install language servers, debug adapters, or other external tools automatically
