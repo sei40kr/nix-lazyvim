@@ -2,17 +2,17 @@
 
 Nix Flake to provide a Nix derivation for [LazyVim](https://github.com/LazyVim/LazyVim).
 
-> [!IMPORTANT]
-> LazyVim v15 requires Neovim v0.11.2 or later. As of 2025/09/25, the stable
-> Nixpkgs release includes Neovim v0.11.1, which is incompatible with LazyVim v15.
+> [!NOTE]
+> LazyVim v15 requires Neovim v0.11.2 or later.
 >
-> You must use an unstable Nixpkgs channel that provides Neovim v0.11.2+. Here's how
-> to override the nixpkgs input:
+> **Nixpkgs 25.11+**: Includes Neovim v0.11.5 - fully compatible, no action needed.
+>
+> **Nixpkgs 25.05 or earlier**: You must use an unstable channel or override `neovim-unwrapped`:
 >
 > ```nix
 > {
 >   inputs = {
->     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";  # or "nixpkgs/master"
+>     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 >
 >     lazyvim = {
 >       url = "github:sei40kr/nix-lazyvim";
@@ -22,11 +22,11 @@ Nix Flake to provide a Nix derivation for [LazyVim](https://github.com/LazyVim/L
 > }
 > ```
 >
-> Alternatively, you can override `neovim-unwrapped` specifically:
+> Or override the package directly:
 >
 > ```nix
 > (inputs.lazyvim.packages.${system}.default.override {
->   inherit (pkgs.unstable) neovim-unwrapped;
+>   inherit (inputs.nixpkgs-unstable.legacyPackages.${system}) neovim-unwrapped;
 > })
 > ```
 
@@ -121,4 +121,4 @@ This would result in build failures when Luarocks is not found, so we've disable
 ## Limitations
 
 - If you override nixpkgs in your Flake, you will need to add nixpkgs which
-  provides Neovim 0.9 or higher.
+  provides Neovim v0.11.2 or higher.
