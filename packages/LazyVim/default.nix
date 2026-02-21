@@ -61,8 +61,6 @@ let
         "lazyvim"
       ];
     luaRcContent = ''
-      vim.opt.runtimepath:prepend(vim.fn.stdpath("data") .. "/nvim-treesitter/parsers")
-
       require("lazy").setup({
         spec = {
           { "LazyVim/LazyVim", import = "lazyvim.plugins" },
@@ -90,7 +88,7 @@ let
             opts_extend = {},
             opts = {
               ensure_installed = {},
-              parser_install_dir = vim.fn.stdpath("data") .. "/nvim-treesitter/parsers",
+              install_dir = "${vimPlugins.nvim-treesitter.withAllGrammars.outPath}",
             },
             pin = true,
             optional = true,
