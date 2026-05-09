@@ -13,6 +13,7 @@
   tree-sitter,
   vimPlugins,
   wrapNeovimUnstable,
+  extraPython3Packages ? (ps: [ ]),
 }:
 
 let
@@ -35,6 +36,7 @@ let
     tectonic
   ] ++ vimPlugins.fzf-lua.runtimeDeps;
   neovimConfigured = wrapNeovimUnstable neovim-unwrapped {
+    inherit extraPython3Packages;
     extraName = "-LazyVim";
     wrapperArgs =
       [
